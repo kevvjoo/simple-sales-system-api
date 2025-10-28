@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,11 +17,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create sample products
+        Product::create(['name' => 'Laptop', 'price' => 15000000, 'stock' => 10]);
+        Product::create(['name' => 'Mouse', 'price' => 150000, 'stock' => 50]);
+        Product::create(['name' => 'Keyboard', 'price' => 500000, 'stock' => 30]);
+        Product::create(['name' => 'Monitor', 'price' => 2000000, 'stock' => 15]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Create sample customers
+        Customer::create(['name' => 'Kevin Jonathan', 'phone' => '081234567890']);
+        Customer::create(['name' => 'Sean Albert', 'phone' => '081234567891']);
+        Customer::create(['name' => 'Yosafat Elim', 'phone' => '081234567892']);
     }
 }
