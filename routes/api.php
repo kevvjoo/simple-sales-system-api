@@ -7,4 +7,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('customers', CustomerController::class);
 Route::apiResource('products', ProductController::class);
-Route::apiResource('salesOrders', SalesOrderController::class)->only(['index', 'store', 'show']);
+Route::apiResource('salesOrders', SalesOrderController::class)->only(['index', 'store']);

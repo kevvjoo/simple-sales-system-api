@@ -87,13 +87,4 @@ class SalesOrderController extends Controller
             return response()->json(['error' => $exception->getMessage()], 400);
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(SalesOrder $salesOrder)
-    {
-        $salesOrder->load('customer', 'products');
-        return response()->json($salesOrder);
-    }
 }
