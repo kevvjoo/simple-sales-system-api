@@ -1,60 +1,159 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sales Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A simple sales management system built with Laravel (backend) and Vue 3 (frontend).
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- ✅ Product Management (CRUD)
+    - Add, edit, delete products
+    - Track stock levels
+- ✅ Customer Management (CRUD)
+    - Add, edit, delete customers
+- ✅ Sales Transaction Management
+    - Select customer and products
+    - Multiple products per transaction
+    - Automatic subtotal and total calculation
+    - Stock validation (prevents overselling)
+    - Automatic stock reduction after transaction
+- ✅ Responsive UI with Tailwind CSS
+- ✅ Form validation
+- ✅ Loading states
+- ✅ Error handling
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Backend
+- Laravel 12.x
+- PostgresSQL
+- PHP 8.4+
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Prerequisites
+- PHP 8.4+
+- Composer
+- Node.js 22+
+- MySQL
+- Laravel Herd (optional) or PHP built-in server
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Backend Setup
 
-## Laravel Sponsors
+1. Clone the repository
+```bash
+git clone https://github.com/kevvjoo/simple-sales-system-api.git
+cd simple-sales-system-api
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. Install dependencies
+```bash
+composer install
+```
 
-### Premium Partners
+3. Setup environment
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. Configure database in `.env`
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=simple-sales-system
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Contributing
+5. Run migrations and seeders
+```bash
+php artisan migrate --seed
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+This will create sample data:
+- 4 products (Laptop, Mouse, Keyboard, Monitor)
+- 3 customers
 
-## Code of Conduct
+6. Start the server
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Option A: Using Laravel Herd** (Recommended if installed)
+```bash
+# Herd automatically serves at: http://simple-sales-system-api.test
+# Make sure Herd is running
+```
 
-## Security Vulnerabilities
+**Option B: Using PHP Built-in Server**
+```bash
+php artisan serve
+# Server will run at: http://localhost:8000
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Database Schema
 
-## License
+### products
+| Column | Type | Description |
+|--------|------|-------------|
+| id | bigint | Primary key |
+| name | string | Product name |
+| price | decimal(16,2) | Product price |
+| stock | integer | Available stock |
+| timestamps | timestamp | Created/Updated/Deleted |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# simple-sales-system-api
+### customers
+| Column | Type | Description |
+|--------|------|-------------|
+| id | bigint | Primary key |
+| name | string | Customer name |
+| phone | string | Phone number |
+| timestamps | timestamp | Created/Updated/Deleted |
+
+### sales_orders
+| Column | Type | Description |
+|--------|------|-------------|
+| id | bigint | Primary key |
+| customer_id | bigint | Foreign key to customers |
+| date | timestamp | Transaction date |
+| total | decimal(16,2) | Total amount |
+| timestamps | timestamp | Created/Updated/Deleted |
+
+### product_sales_order
+| Column | Type | Description |
+|--------|------|-------------|
+| id | bigint | Primary key |
+| product_id | bigint | Foreign key to products |
+| sales_order_id | bigint | Foreign key to sales orders |
+| quantity | integer | Quantity |
+| price | decimal(16,2) | Product price |
+| subtotal | decimal(16,2) | Item subtotal |
+| timestamps | timestamp | Created/Updated |
+
+## API Endpoints
+
+### Products
+- `GET /api/products` - List all products
+- `POST /api/products` - Create product
+- `GET /api/products/{id}` - Show product
+- `PUT /api/products/{id}` - Update product
+- `DELETE /api/products/{id}` - Delete product
+
+### Customers
+- `GET /api/customers` - List all customers
+- `POST /api/customers` - Create customer
+- `GET /api/customers/{id}` - Show customer
+- `PUT /api/customers/{id}` - Update customer
+- `DELETE /api/customers/{id}` - Delete customer
+
+### Sales
+- `GET /api/sales` - List all sales transactions
+- `POST /api/sales` - Create sale transaction
+
+## Developer
+
+**Kevin**
+- GitHub: [kevvjoo]
+- Test Assignment: Junior-Mid Full Stack Developer
+- This project was created for educational/assessment purposes.
+
+---
+
+**Built with ❤️ using Laravel**
