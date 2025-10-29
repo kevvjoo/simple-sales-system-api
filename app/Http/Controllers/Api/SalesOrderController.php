@@ -16,14 +16,22 @@ class SalesOrderController extends Controller
      */
     public function index()
     {
-        $salesOrders = SalesOrder::with('customer')->get();
+        $salesOrders = SalesOrder::with('customer', 'products')->get();
 
         $formatted = $salesOrders->map(function ($saleOrder) {
             return [
                 'id' => $saleOrder->id,
                 'customer_name' => $saleOrder->customer->name,
-                'date' => $saleOrder->date->format('Y-m-d'),
+                'date' => $saleOrder->date->format('d-m-Y H:i:s'),
                 'total' => $saleOrder->total,
+                'products' => $saleOrder->products->map(function ($product) {
+                    return [
+                        'name' => $product->name,
+                        'quantity' => $product->pivot->quantity,
+                        'price' => $product->pivot->price,
+                        'subtotal' => $product->pivot->subtotal,
+                    ];
+                }),
             ];
         });
 
