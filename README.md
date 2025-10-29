@@ -143,9 +143,9 @@ php artisan serve
 - `PUT /api/customers/{id}` - Update customer
 - `DELETE /api/customers/{id}` - Delete customer
 
-### Sales
-- `GET /api/sales` - List all sales transactions
-- `POST /api/sales` - Create sale transaction
+### Sales Orders
+- `GET /api/salesOrders` - List all sales orders transactions
+- `POST /api/salesOrders` - Create sales order transaction
 
 ## Developer
 
